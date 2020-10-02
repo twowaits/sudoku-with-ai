@@ -12,22 +12,36 @@ class CNN:
     def build_and_compile_model(self):
         if self.modelbuilt:
             return
-        # Add a Convolutional layer
-        self.model.add(tf.keras.layers.Conv2D(32, (3, 3), input_shape=(28, 28, 1), activation='relu'))
-        # Add a Max pooling layer
+        # Add a Convolutional layers and Max pooling layers
+        self.model.add(tf.keras.layers.Conv2D(32, 5, input_shape=(28, 28, 1), activation='relu'))
         self.model.add(tf.keras.layers.MaxPool2D())
-        # Add the flattened layer
+        
+        self.model.add(tf.keras.layers.Conv2D(64, 3,activation='relu'))
+        self.model.add(tf.keras.layers.MaxPool2D())
+        
+        self.model.add(tf.keras.layers.Conv2D(128, 3,activation='relu'))
+        self.model.add(tf.keras.layers.MaxPool2D())
+        
+        self.model.add(tf.keras.layers.Conv2D(256, 2,activation='relu'))
+        self.model.add(tf.keras.layers.MaxPool2D())
+        
         self.model.add(tf.keras.layers.Flatten())
-        # Add the hidden layer
-        self.model.add(tf.keras.layers.Dense(512, activation='relu'))
-        # Adding a dropout layer
+        
+        # Add the hidden layers and Dropout
+        self.model.add(tf.keras.layers.Dense(50, activation='relu'))
         self.model.add(tf.keras.layers.Dropout(0.2))
+        
+        self.model.add(tf.keras.layers.Dense(25, activation='relu'))
+        self.model.add(tf.keras.layers.Dropout(0.2))
+        
         # Add the output layer
         self.model.add(tf.keras.layers.Dense(10, activation='softmax'))
         # Compiling the model
-        self.model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
+        self.model.compile(optimizer="nadam", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
         self.modelbuilt = True
 
+
+        
     '''This function loads the Train/Test dataset, trains the model and evaluates it.
     It prints the accuracy attained on the test set in the end'''
     def train_and_evaluate_model(self):
